@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Title</title>
+
+    <style>
+*, *:before, *:after {
+  box-sizing: border-box;
+};
+body {
+  font-family: Helvetica, Ubuntu, Arial, sans-serif;
+};
+    </style>
+    
+    <template id="flash-card-template">
+      <div class="flash-card">
+        <span class="flash-card-title"></span>
+        <span class="flash-card-text"></span>
+      </div>
+    </template>
+
+    <script>
+      function Component(name, mapping) {
+        return class extends HTMLElement {
+          constructor() {
+            super();
+            let template = document.querySelector(name);
+            this.attachShadow({mode:'open'}).appendChild(template.content.cloneNode(true));
+          }
+          connectedCallback() {
+            for (let [key, value] of mapping)
+              if (this.hasAttribute(key))
+                this.shadowRoot.querySelector(value).textContent = this.getAttribute(key);
+          }
+        }
+      }
+      customElements.define('flash-card', Component('#flash-card-template', 
+        new Map([['simplified', '.flash-card-title'],
+                 ['traditional', '.flash-card-title'],
+                 ['pinyin', '.flash-card-text']])));
+    </script>
+
+  </head>
+  <body>
+    <h1>Hello, world!</h1>
+
+    <flash-card traditional="愛" simplified="爱" pinyin="ài"></flash-card>
+
+  </body>
+</html>
