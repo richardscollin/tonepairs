@@ -15,9 +15,32 @@ body {
     </style>
     
     <template id="flash-card-template">
+      <style>
+      .flash-card {
+        background-color: rgba(0,0,0,.1);
+        width: 200px;
+        border-radius: 10px;
+        box-shadow: 5px 5px; rgba(0,0,0,.05);
+
+        display: flex;
+        justify-content:center;
+        align-content:center;
+        flex-direction:column; 
+        text-align: center;
+      }
+      .flash-card-title {
+        font-size: 50px;
+        padding-top: 10px;
+      }
+      .flash-card-text {
+        font-size: 25px;
+        padding-bottom: 10px;
+      }
+      </style>
       <div class="flash-card">
         <span class="flash-card-title"></span>
         <span class="flash-card-text"></span>
+        <div class="flash-sound"></div>
       </div>
     </template>
 
@@ -46,7 +69,39 @@ body {
   <body>
     <h1>Hello, world!</h1>
 
-    <flash-card traditional="愛" simplified="爱" pinyin="ài"></flash-card>
+    <div class="container">
+      <flash-card traditional="愛愛" simplified="爱" pinyin="àiài"></flash-card>
+    </div>
 
+    <script>
+      var results = [];
+      fetch('/hsk.json')
+      .then((resp) => resp.json())
+      .then((data) => { results = data; });
+
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
+}
+
+      function newCard() {
+        console.log("new card")
+        let fc = document.createElement('flash-card');
+
+        let r = getRandomInt(0, results.length);
+        let e = results[r];
+
+        fc.setAttribute('simplified', e[0]);
+        fc.setAttribute('traditional', e[1]);
+        fc.setAttribute('pinyin', e[2]);
+
+        let container = document.querySelector('.container')
+        container.replaceChild(fc, container.querySelector('flash-card'));
+      }
+      setInterval(newCard, 5000);
+
+
+    </script>
   </body>
 </html>
