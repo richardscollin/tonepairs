@@ -45,7 +45,14 @@ body {
     </template>
 
     <script>
-      function Component(name, mapping) {
+
+      function getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
+      }
+
+      function Component(name, mapping, extras) {
         return class extends HTMLElement {
           constructor() {
             super();
@@ -56,13 +63,34 @@ body {
             for (let [key, value] of mapping)
               if (this.hasAttribute(key))
                 this.shadowRoot.querySelector(value).textContent = this.getAttribute(key);
+            extras.bind(this)();
           }
         }
       }
+
+      function newCard() {
+        let fc = document.createElement('flash-card');
+
+        let r = getRandomInt(0, results.length);
+        let e = results[r];
+
+        fc.setAttribute('simplified', e[0]);
+        fc.setAttribute('traditional', e[1]);
+        fc.setAttribute('pinyin', e[2]);
+
+        let container = document.querySelector('.container')
+        container.replaceChild(fc, container.querySelector('flash-card'));
+      }
+
+
       customElements.define('flash-card', Component('#flash-card-template', 
         new Map([['simplified', '.flash-card-title'],
                  ['traditional', '.flash-card-title'],
-                 ['pinyin', '.flash-card-text']])));
+                 ['pinyin', '.flash-card-text']]),
+        function() {
+          this.shadowRoot.querySelector('.flash-card').onclick = newCard;
+        }
+      ));
     </script>
 
   </head>
@@ -79,27 +107,6 @@ body {
       .then((resp) => resp.json())
       .then((data) => { results = data; });
 
-function getRandomInt(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
-}
-
-      function newCard() {
-        console.log("new card")
-        let fc = document.createElement('flash-card');
-
-        let r = getRandomInt(0, results.length);
-        let e = results[r];
-
-        fc.setAttribute('simplified', e[0]);
-        fc.setAttribute('traditional', e[1]);
-        fc.setAttribute('pinyin', e[2]);
-
-        let container = document.querySelector('.container')
-        container.replaceChild(fc, container.querySelector('flash-card'));
-      }
-      setInterval(newCard, 5000);
 
 
     </script>
