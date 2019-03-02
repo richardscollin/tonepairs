@@ -15,18 +15,17 @@
   </div>
   <style>
   .flash-card {
-    background-color: rgba(0,0,0,.05);
+    position:relative;
     width: 200px;
     height: 125px;
+
+    background-color: rgba(0,0,0,.05);
     border-radius: 10px;
     border: 2px;
     box-shadow: 0px 0px 5px 2px #ccc;
 
     margin: 0;
     padding: 0;
-
-    position:relative;
-
     display: flex;
     justify-content:center;
     align-content:center;
@@ -34,26 +33,26 @@
     text-align: center;
   }
   .flash-card-title {
-    font-size: 50px;
     margin-top: 10px;
+    font-size: 50px;
   }
   .flash-card-text {
-    font-size: 25px;
     margin-bottom: 10px;
+    font-size: 25px;
   }
   .flash-card-label:hover {
     cursor: pointer;
   }
   .flash-card-label {
-    color: blue;
-    font-size: 10px;
     position: absolute;
     bottom: 10px;
     left: 10px;
+
+    color: blue;
+    font-size: 10px;
   }
   .flash-card-ui {
     margin-top: 10px;
-    //position: relative;
     height: 50px;
 
     display: flex;
@@ -69,6 +68,7 @@
     height: 30px;
     font-size: 20px;
 
+    background-color: #ccc;
     border: none;
     box-shadow: 0px 0px 1px 3px #ccc;
     border-radius: 50%;
@@ -76,8 +76,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
-    background-color: #ccc;
   }
   .flash-card-back > span {
     position: relative;
@@ -130,14 +128,15 @@
       label.textContent = this.altType.substring(0,4) + ".";
     }
     next() {
-      let card = deck[++this.index];
-      this.simplified = card[0];
-      this.traditional = card[1];
-      this.pinyin = card[2];
+      this.index = Math.min(this.index + 1, deck.length - 1);
+      this.fill();
     }
     previous() {
-      if (this.index === 0) return;
-      let card = deck[--this.index];
+      this.index = Math.max(this.index - 1, 0);
+      this.fill();
+    }
+    fill() {
+      let card = deck[this.index];
       this.simplified = card[0];
       this.traditional = card[1];
       this.pinyin = card[2];

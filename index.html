@@ -30,20 +30,29 @@ body {
 
     </style>
     <script src="components/utils.js"></script>
+    <script src="components/x-banner.js"></script>
     <script src="components/flash-card.js"></script>
 
   </head>
   <body>
-    <h1>HSK Flash Cards</h1>
+    <x-banner title="HSK Flash Cards"></x-banner>
     <div class="container">
-      <flash-card type="traditional" index=0 traditional="愛愛" simplified="爱爱" pinyin="àiài"></flash-card>
     </div>
 
     <script>
-      deck = [];
-      fetch('/hsk.json')
-      .then((resp) => resp.json())
-      .then((data) => { deck = shuffle(data); });
+      window.onload = () => {
+        deck = [];
+        fetch('/hsk.json')
+        .then((resp) => resp.json())
+        .then((data) => {
+          deck = shuffle(data);
+          let fc = document.createElement('flash-card');
+          fc.index = 0;
+          fc.type = "traditional";
+          fc.fill();
+          document.querySelector(".container").appendChild(fc);
+        });
+      };
     </script>
   </body>
 </html>
