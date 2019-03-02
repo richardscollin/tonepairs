@@ -3,7 +3,7 @@
   template.innerHTML = `
   <div class="flash-card-wrapper">
     <div class="flash-card">
-      <span class="flash-card-title"></span>
+      <a href="#" class="flash-card-title"></a>
       <span class="flash-card-text"></span>
       <div class="flash-card-label"></div>
     </div>
@@ -35,6 +35,9 @@
   .flash-card-title {
     margin-top: 10px;
     font-size: 50px;
+
+    text-decoration: none;
+    color: black;
   }
   .flash-card-text {
     margin-bottom: 10px;
@@ -98,8 +101,7 @@
     connectedCallback() {
       this.update();
       const next = this.shadowRoot.querySelector(".flash-card-next");
-      const card = this.shadowRoot.querySelector(".flash-card");
-      card.onclick = next.onclick = (e) => {
+      next.onclick = (e) => {
         this.next();
         this.update();
         e.stopPropagation();
@@ -124,7 +126,9 @@
       const indexLabel = this.shadowRoot.querySelector(".flash-card-index-label");
       indexLabel.textContent = `${this.index + 1}`
       title.textContent = this.getAttribute(this.type) || "";
-      text.textContent = this.getAttribute("pinyin") || "";
+      text.textContent = this.pinyin || "";
+      let encoded = encodeURIComponent(this.getAttribute(this.type));
+      title.href = `plecoapi://x-callback-url/df?hw=${encoded}&py=${this.pinyin}`;
       label.textContent = this.altType.substring(0,4) + ".";
     }
     next() {
