@@ -8,107 +8,82 @@
     <style>
 *, *:before, *:after {
   box-sizing: border-box;
-};
+}
+html, body {
+  height: 100%;
+}
 body {
+  margin: 0;
   font-family: Helvetica, Ubuntu, Arial, sans-serif;
-};
+}
+.container {
+  height: 100%;
+  display: flex;
+  padding: 0;
+  margin: 0;
+
+  flex-direction: row; 
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+
     </style>
-    
-    <template id="flash-card-template">
-      <style>
-      .flash-card {
-        background-color: rgba(0,0,0,.1);
-        width: 200px;
-        border-radius: 10px;
-        box-shadow: 5px 5px; rgba(0,0,0,.05);
-
-        display: flex;
-        justify-content:center;
-        align-content:center;
-        flex-direction:column; 
-        text-align: center;
-      }
-      .flash-card-title {
-        font-size: 50px;
-        padding-top: 10px;
-      }
-      .flash-card-text {
-        font-size: 25px;
-        padding-bottom: 10px;
-      }
-      </style>
-      <div class="flash-card">
-        <span class="flash-card-title"></span>
-        <span class="flash-card-text"></span>
-        <div class="flash-sound"></div>
-      </div>
-    </template>
-
+    <script src="components/utils.js"></script>
+    <script src="components/flash-card.js"></script>
     <script>
+      var lastIndex = 0;
 
-      function getRandomInt(min, max) {
-        min = Math.ceil(min);
-        max = Math.floor(max);
-        return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
-      }
-
-      function Component(name, mapping, extras) {
-        return class extends HTMLElement {
-          constructor() {
-            super();
-            let template = document.querySelector(name);
-            this.attachShadow({mode:'open'}).appendChild(template.content.cloneNode(true));
-          }
-          connectedCallback() {
-            for (let [key, value] of mapping)
-              if (this.hasAttribute(key))
-                this.shadowRoot.querySelector(value).textContent = this.getAttribute(key);
-            extras.bind(this)();
-          }
-        }
-      }
-
-      function newCard() {
+      function nextCard() {
         let fc = document.createElement('flash-card');
+        const container = document.querySelector('.container')
+        const old = container.querySelector('flash-card');
+        fc.onclick = nextCard;
+        fc.back = previousCard;
 
-        let r = getRandomInt(0, results.length);
-        let e = results[r];
+        let e = deck[++lastIndex];
 
-        fc.setAttribute('simplified', e[0]);
-        fc.setAttribute('traditional', e[1]);
-        fc.setAttribute('pinyin', e[2]);
+        fc.type = old.type;
+        fc.simplified = e[0];
+        fc.traditional = e[1];
+        fc.pinyin = e[2];
 
-        let container = document.querySelector('.container')
-        container.replaceChild(fc, container.querySelector('flash-card'));
+        container.replaceChild(fc, old);
       }
 
+      function previousCard() {
+        if (lastIndex !== 0) {
+          let fc = document.createElement('flash-card');
+          const container = document.querySelector('.container')
+          const old = container.querySelector('flash-card');
+          fc.onclick = nextCard;
+          fc.back = previousCard;
 
-      customElements.define('flash-card', Component('#flash-card-template', 
-        new Map([['simplified', '.flash-card-title'],
-                 ['traditional', '.flash-card-title'],
-                 ['pinyin', '.flash-card-text']]),
-        function() {
-          this.shadowRoot.querySelector('.flash-card').onclick = newCard;
+          lastIndex = Math.max(lastIndex-1, 0);
+          let n = deck[lastIndex];
+
+          fc.type = old.type;
+          fc.simplified = n[0];
+          fc.traditional = n[1];
+          fc.pinyin = n[2];
+
+          container.replaceChild(fc, old);
         }
-      ));
+      };
     </script>
 
   </head>
   <body>
-    <h1>Hello, world!</h1>
-
+    <h1>HSK Flash Cards</h1>
     <div class="container">
-      <flash-card traditional="愛愛" simplified="爱" pinyin="àiài"></flash-card>
+      <flash-card type="traditional" traditional="愛愛" simplified="爱爱" pinyin="àiài" onclick="nextCard()"></flash-card>
     </div>
 
     <script>
-      var results = [];
+      var deck = [];
       fetch('/hsk.json')
       .then((resp) => resp.json())
-      .then((data) => { results = data; });
-
-
-
+      .then((data) => { deck = shuffle(data); });
     </script>
   </body>
 </html>
