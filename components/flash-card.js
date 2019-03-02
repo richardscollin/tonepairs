@@ -1,16 +1,23 @@
 (function () {
   let template = document.createElement('template');
   template.innerHTML = `
-  <div class="flash-card">
-    <span class="flash-card-title"></span>
-    <span class="flash-card-text"></span>
-    <div class="flash-card-label"></div>
-    <button class="flash-card-back">↩</button>
+  <div class="flash-card-wrapper">
+    <div class="flash-card">
+      <span class="flash-card-title"></span>
+      <span class="flash-card-text"></span>
+      <div class="flash-card-label"></div>
+    </div>
+    <div class="flash-card-ui">
+      <button class="flash-card-back nav-icon"><span>◀</span></button>
+      <span class="flash-card-index-label"></span>
+      <button class="flash-card-next nav-icon"><span>▶</span></button>
+    </div>
   </div>
   <style>
   .flash-card {
     background-color: rgba(0,0,0,.05);
     width: 200px;
+    height: 125px;
     border-radius: 10px;
     border: 2px;
     box-shadow: 0px 0px 5px 2px #ccc;
@@ -28,11 +35,11 @@
   }
   .flash-card-title {
     font-size: 50px;
-    padding-top: 10px;
+    margin-top: 10px;
   }
   .flash-card-text {
     font-size: 25px;
-    padding-bottom: 10px;
+    margin-bottom: 10px;
   }
   .flash-card-label:hover {
     cursor: pointer;
@@ -44,18 +51,45 @@
     bottom: 10px;
     left: 10px;
   }
-  .flash-card-back:hover {
-    cursor: pointer;
+  .flash-card-ui {
+    margin-top: 10px;
+    //position: relative;
+    height: 50px;
+
+    display: flex;
+    justify-content:center;
+    align-content: center;
+    align-items: baseline;
   }
-  .flash-card-back {
-    color: blue;
-    background-color: rgba(0,0,0,0);
+  .flash-card-index-label {
+    margin: 0 15px;
+  }
+  .nav-icon {
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+
     border: none;
-    font-size: 10px;
-    position: absolute;
-    top: 10px;
-    left: 10px;
+    box-shadow: 0px 0px 1px 3px #ccc;
+    border-radius: 50%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: #ccc;
   }
+  .flash-card-back > span {
+    position: relative;
+    bottom: .1em;
+    right: .1em;
+  }
+  .flash-card-next > span {
+    position: relative;
+    bottom: .1em;
+    left: .1em;
+  }
+
   </style>`;
 
   customElements.define('flash-card', class extends HTMLElement {
@@ -65,8 +99,9 @@
     }
     connectedCallback() {
       this.update();
+      const next = this.shadowRoot.querySelector(".flash-card-next");
       const card = this.shadowRoot.querySelector(".flash-card");
-      card.onclick = (e) => {
+      card.onclick = next.onclick = (e) => {
         this.next();
         this.update();
         e.stopPropagation();
@@ -88,6 +123,8 @@
       const title = this.shadowRoot.querySelector(".flash-card-title");
       const label = this.shadowRoot.querySelector(".flash-card-label");
       const text = this.shadowRoot.querySelector(".flash-card-text");
+      const indexLabel = this.shadowRoot.querySelector(".flash-card-index-label");
+      indexLabel.textContent = `${this.index + 1}`
       title.textContent = this.getAttribute(this.type) || "";
       text.textContent = this.getAttribute("pinyin") || "";
       label.textContent = this.altType.substring(0,4) + ".";
