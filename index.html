@@ -43,14 +43,14 @@ body {
     <script>
       window.onload = () => {
         deck = [];
-        fetch('/hsk.json')
+        fetch('hsk.json')
         .then((resp) => resp.json())
         .then((data) => {
           deck = shuffle(data);
           let fc = document.querySelector('flash-card');
           fc.fill();
           fc.update();
-        });
+        }).catch(error => console.error('Error:', error));
       };
     </script>
   </body>
