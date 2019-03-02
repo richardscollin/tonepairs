@@ -66,15 +66,22 @@
   .flash-card-index-label {
     margin: 0 15px;
   }
+  .nav-icon::-moz-focus-inner {
+    border: none;
+  }
+  .nav-icon:focus {
+    border-style: solid;
+    border-width: 1px;
+    box-shadow: 0 0 2px black;
+  }
   .nav-icon {
     width: 30px;
     height: 30px;
     font-size: 20px;
 
     background-color: #ccc;
-    border: none;
-    box-shadow: 0px 0px 1px 3px #ccc;
     border-radius: 50%;
+    border: none;
 
     display: flex;
     justify-content: center;
