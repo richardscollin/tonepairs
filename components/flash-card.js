@@ -5,7 +5,7 @@
     <span class="flash-card-title"></span>
     <span class="flash-card-text"></span>
     <div class="flash-card-label"></div>
-    <button class="flash-card-back">back</button>
+    <button class="flash-card-back">↩</button>
   </div>
   <style>
   .flash-card {
@@ -49,6 +49,8 @@
   }
   .flash-card-back {
     color: blue;
+    background-color: rgba(0,0,0,0);
+    border: none;
     font-size: 10px;
     position: absolute;
     top: 10px;
@@ -63,18 +65,24 @@
     }
     connectedCallback() {
       this.update();
-      const back = this.shadowRoot.querySelector(".flash-card-back");
-      back.onclick = (e) => {
-        this.back();
+      const card = this.shadowRoot.querySelector(".flash-card");
+      card.onclick = (e) => {
+        this.next();
         this.update();
         e.stopPropagation();
-      }
+      };
+      const back = this.shadowRoot.querySelector(".flash-card-back");
+      back.onclick = (e) => {
+        this.previous();
+        this.update();
+        e.stopPropagation();
+      };
       const label = this.shadowRoot.querySelector(".flash-card-label");
       label.onclick = (e) => {
         this.type = this.altType;
         this.update();
         e.stopPropagation();
-      }
+      };
     }
     update() {
       const title = this.shadowRoot.querySelector(".flash-card-title");
@@ -83,6 +91,25 @@
       title.textContent = this.getAttribute(this.type) || "";
       text.textContent = this.getAttribute("pinyin") || "";
       label.textContent = this.altType.substring(0,4) + ".";
+    }
+    next() {
+      let card = deck[++this.index];
+      this.simplified = card[0];
+      this.traditional = card[1];
+      this.pinyin = card[2];
+    }
+    previous() {
+      if (this.index === 0) return;
+      let card = deck[--this.index];
+      this.simplified = card[0];
+      this.traditional = card[1];
+      this.pinyin = card[2];
+    }
+    get index() {
+      return parseInt(this.getAttribute("index"));
+    }
+    set index(value) {
+      this.setAttribute("index", value);
     }
     get type() {
       return this.getAttribute("type");

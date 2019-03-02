@@ -31,56 +31,16 @@ body {
     </style>
     <script src="components/utils.js"></script>
     <script src="components/flash-card.js"></script>
-    <script>
-      var lastIndex = 0;
-
-      function nextCard() {
-        let fc = document.createElement('flash-card');
-        const container = document.querySelector('.container')
-        const old = container.querySelector('flash-card');
-        fc.onclick = nextCard;
-        fc.back = previousCard;
-
-        let e = deck[++lastIndex];
-
-        fc.type = old.type;
-        fc.simplified = e[0];
-        fc.traditional = e[1];
-        fc.pinyin = e[2];
-
-        container.replaceChild(fc, old);
-      }
-
-      function previousCard() {
-        if (lastIndex !== 0) {
-          let fc = document.createElement('flash-card');
-          const container = document.querySelector('.container')
-          const old = container.querySelector('flash-card');
-          fc.onclick = nextCard;
-          fc.back = previousCard;
-
-          lastIndex = Math.max(lastIndex-1, 0);
-          let n = deck[lastIndex];
-
-          fc.type = old.type;
-          fc.simplified = n[0];
-          fc.traditional = n[1];
-          fc.pinyin = n[2];
-
-          container.replaceChild(fc, old);
-        }
-      };
-    </script>
 
   </head>
   <body>
     <h1>HSK Flash Cards</h1>
     <div class="container">
-      <flash-card type="traditional" traditional="愛愛" simplified="爱爱" pinyin="àiài" onclick="nextCard()"></flash-card>
+      <flash-card type="traditional" index=0 traditional="愛愛" simplified="爱爱" pinyin="àiài"></flash-card>
     </div>
 
     <script>
-      var deck = [];
+      deck = [];
       fetch('/hsk.json')
       .then((resp) => resp.json())
       .then((data) => { deck = shuffle(data); });
