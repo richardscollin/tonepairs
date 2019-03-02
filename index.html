@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Title</title>
+    <title>HSK Flash Cards</title>
 
     <style>
 *, *:before, *:after {
@@ -37,6 +37,7 @@ body {
   <body>
     <x-banner title="HSK Flash Cards"></x-banner>
     <div class="container">
+      <flash-card index="0" type="traditional"></flash-card>
     </div>
 
     <script>
@@ -46,11 +47,9 @@ body {
         .then((resp) => resp.json())
         .then((data) => {
           deck = shuffle(data);
-          let fc = document.createElement('flash-card');
-          fc.index = 0;
-          fc.type = "traditional";
+          let fc = document.querySelector('flash-card');
           fc.fill();
-          document.querySelector(".container").appendChild(fc);
+          fc.update();
         });
       };
     </script>
