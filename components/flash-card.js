@@ -16,8 +16,8 @@
   <style>
   .flash-card {
     position:relative;
-    width: 200px;
-    height: 125px;
+    width: 300px;
+    height: 175px;
 
     background-color: rgba(0,0,0,.05);
     border-radius: 10px;
@@ -34,7 +34,7 @@
   }
   .flash-card-title {
     margin-top: 10px;
-    font-size: 50px;
+    font-size: 75px;
 
     text-decoration: none;
     color: black;
@@ -65,6 +65,10 @@
   }
   .flash-card-index-label {
     margin: 0 15px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none; 
+    user-select: none;
   }
   .nav-icon::-moz-focus-inner {
     border: none;
