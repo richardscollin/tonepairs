@@ -61,14 +61,15 @@
     display: flex;
     justify-content:center;
     align-content: center;
-    align-items: baseline;
-  }
-  .flash-card-index-label {
-    margin: 0 15px;
+    align-items: center;
+
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none; 
     user-select: none;
+  }
+  .flash-card-index-label {
+    margin: 0 15px;
   }
   .nav-icon::-moz-focus-inner {
     border: none;
@@ -77,11 +78,12 @@
     border-style: solid;
     border-width: 1px;
     box-shadow: 0 0 2px black;
+    outline: 0;
   }
   .nav-icon {
-    width: 30px;
-    height: 30px;
-    font-size: 20px;
+    width: 50px;
+    height: 50px;
+    font-size: 35px;
 
     background-color: #ccc;
     border-radius: 50%;
