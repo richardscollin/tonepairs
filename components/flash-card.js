@@ -141,7 +141,7 @@
       title.textContent = this.getAttribute(this.type) || "";
       text.textContent = this.pinyin || "";
       let encoded = encodeURIComponent(this.getAttribute(this.type));
-      title.href = `plecoapi://x-callback-url/df?hw=${encoded}&py=${this.pinyin}`;
+      title.href = `plecoapi://x-callback-url/s?q=${encoded}&mode=df&hw=${encoded}`;
       label.textContent = this.altType.substring(0,4) + ".";
     }
     next() {
