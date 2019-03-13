@@ -3,7 +3,7 @@
   template.innerHTML = `
   <div class="x-banner">
     <h2 class="left"></h2>
-    <a class="right" target="_blank" href="https://github.com/richardscollin/tonepairs">About</a>
+    <a class="right" target="_blank" >About</a>
   </div>
   <style>
   .x-banner {
@@ -43,7 +43,10 @@
     }
     update() {
       const left = this.shadowRoot.querySelector('.left');
+      const right = this.shadowRoot.querySelector('.right');
       left.textContent = this.getAttribute('title') || "";
+      right.href = this.getAttribute('href') || "#";
+      right.textContent = "About";
     }
   });
 })();
