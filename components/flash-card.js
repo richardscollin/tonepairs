@@ -5,6 +5,7 @@
     <div class="flash-card">
       <a href="#" class="flash-card-title"></a>
       <span class="flash-card-text"></span>
+      <span class="flash-card-english"></span>
       <div class="flash-card-label"></div>
     </div>
     <div class="flash-card-ui">
@@ -40,6 +41,10 @@
     color: black;
   }
   .flash-card-text {
+    margin-bottom: 10px;
+    font-size: 25px;
+  }
+  .flash-card-english {
     margin-bottom: 10px;
     font-size: 25px;
   }
@@ -136,10 +141,12 @@
       const title = this.shadowRoot.querySelector(".flash-card-title");
       const label = this.shadowRoot.querySelector(".flash-card-label");
       const text = this.shadowRoot.querySelector(".flash-card-text");
+      const english = this.shadowRoot.querySelector(".flash-card-english");
       const indexLabel = this.shadowRoot.querySelector(".flash-card-index-label");
       indexLabel.textContent = `${this.index + 1}`
       title.textContent = this.getAttribute(this.type) || "";
-      text.textContent = this.pinyin || "";
+      text.textContent = this.pinyin;
+      english.textContent = this.english;
       let encoded = encodeURIComponent(this.getAttribute(this.type));
       title.href = `plecoapi://x-callback-url/s?q=${encoded}&mode=df&hw=${encoded}`;
       label.textContent = this.altType.substring(0,4) + ".";
@@ -157,15 +164,16 @@
       this.simplified = card[0];
       this.traditional = card[1];
       this.pinyin = card[2];
+      this.english = card[3];
     }
     get index() {
-      return parseInt(this.getAttribute("index"));
+      return parseInt(this.getAttribute("index") || "0");
     }
     set index(value) {
       this.setAttribute("index", value);
     }
     get type() {
-      return this.getAttribute("type");
+      return this.getAttribute("type") || "";
     }
     set type(value) {
       this.setAttribute("type", value);
@@ -174,22 +182,28 @@
       return this.type == "traditional" ? "simplified" : "traditional";
     }
     get traditional() {
-      return this.getAttribute("traditional");
+      return this.getAttribute("traditional") || "";
     }
     set traditional(value) {
       this.setAttribute("traditional", value);
     }
     get simplified() {
-      return this.getAttribute("simplified");
+      return this.getAttribute("simplified") || "";
     }
     set simplified(value) {
       this.setAttribute("simplified", value);
     }
     get pinyin() {
-      return this.getAttribute("pinyin");
+      return this.getAttribute("pinyin") || "";
     }
     set pinyin(value) {
       this.setAttribute("pinyin", value);
+    }
+    get english() {
+      return this.getAttribute("english") || "";
+    }
+    set english(value) {
+      this.setAttribute("english", value);
     }
   });
 })();
