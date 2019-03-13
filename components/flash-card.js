@@ -9,9 +9,13 @@
       <div class="flash-card-label"></div>
     </div>
     <div class="flash-card-ui">
-      <button class="flash-card-back nav-icon"><span>◀</span></button>
+      <button class="flash-card-back nav-icon">
+        <svg viewBox="0 0 100 100"><polygon points="0 50, 80 100, 80 0"/></svg>
+      </button>
       <span class="flash-card-index-label"></span>
-      <button class="flash-card-next nav-icon"><span>▶</span></button>
+      <button class="flash-card-next nav-icon">
+        <svg viewBox="0 0 100 100"><polygon transform="rotate(180, 50, 50)" points="0 50, 80 100, 80 0"/></svg>
+      </button>
     </div>
   </div>
   <style>
@@ -88,27 +92,11 @@
   .nav-icon {
     width: 50px;
     height: 50px;
-    font-size: 35px;
 
     background-color: #ccc;
     border-radius: 50%;
     border: none;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
   }
-  .flash-card-back > span {
-    position: relative;
-    bottom: .1em;
-    right: .1em;
-  }
-  .flash-card-next > span {
-    position: relative;
-    bottom: .1em;
-    left: .1em;
-  }
-
   </style>`;
 
   customElements.define('flash-card', class extends HTMLElement {
