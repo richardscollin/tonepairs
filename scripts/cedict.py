@@ -22,9 +22,11 @@ def bar(data):
         (simplified, traditional, pinyin, def1) = data
     else:
         simplified = data[0]
+        traditional = data[1]
 
     if len(simplified) != 2: return
     pair_dictionary[simplified] = data
+    pair_dictionary[traditional] = data
 
 def cedict():
     global pair_dictionary
