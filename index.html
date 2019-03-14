@@ -41,6 +41,17 @@ body {
     </div>
 
     <script>
+      function registerKeyboardShortcuts(fc) {
+        document.addEventListener("keyup", event => {
+          if (event.key === "ArrowRight") {
+            fc.next();
+            fc.update();
+          } else if (event.key === "ArrowLeft") {
+            fc.previous();
+            fc.update();
+          }
+        });
+      }
       window.onload = () => {
         deck = [];
         fetch('hsk-v2.json')
@@ -50,6 +61,7 @@ body {
           let fc = document.querySelector('flash-card');
           fc.fill();
           fc.update();
+          registerKeyboardShortcuts(fc);
         }).catch(error => console.error('Error:', error));
       };
     </script>

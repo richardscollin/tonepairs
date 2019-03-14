@@ -52,7 +52,7 @@
   }
   .flash-card-english {
     margin-bottom: 10px;
-    font-size: 25px;
+    font-size: 15px;
   }
   .flash-card-label:hover {
     cursor: pointer;
