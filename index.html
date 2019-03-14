@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="manifest.webmanifest">
     <title>HSK Flash Cards</title>
 
     <style>
@@ -29,6 +30,7 @@ body {
 }
 
     </style>
+
     <script src="components/utils.js"></script>
     <script src="components/x-banner.js"></script>
     <script src="components/flash-card.js"></script>
@@ -63,6 +65,16 @@ body {
           fc.update();
           registerKeyboardShortcuts(fc);
         }).catch(error => console.error('Error:', error));
+
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('sw.js')
+            .then(function(registration) {
+              console.log('Registration successful, scope is:', registration.scope);
+            })
+            .catch(function(error) {
+              console.log('Service worker registration failed, error:', error);
+            });
+        }
       };
     </script>
   </body>
