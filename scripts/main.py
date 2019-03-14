@@ -6,17 +6,20 @@ import json
 import cedict
 
 def parse_file(filename, foo):
+    level = 0
     with open(filename, "r", newline='', encoding="utf-8-sig") as f:
         reader = csv.reader(f, delimiter='\t')
         for row in reader:
-            if len(row) == 0 or row[0].startswith("//"):
+            if len(row) == 0: continue
+            if row[0].startswith("//"):
+                level += 1
                 continue
 
             assert(len(row) == 2)
 
             (character, pinyin) = row
             (simplified, traditional) = character.strip(']').split('[')
-            foo(simplified, traditional, pinyin)
+            foo(simplified, traditional, pinyin, level)
 
 def is_unicode(string):
     try:
@@ -52,7 +55,7 @@ def follow_references(entry, dictionary):
 
 warning_count = 0
 pair_list = []
-def bar(simplified, traditional, pinyin):
+def bar(simplified, traditional, pinyin, level):
     global pair_list
     global dictionary
     global warning_count
@@ -61,7 +64,7 @@ def bar(simplified, traditional, pinyin):
         if (entry):
             entry = follow_references(entry, dictionary)
             english = entry[3]
-            pair_list.append([simplified, traditional, pinyin, english])
+            pair_list.append([simplified, traditional, pinyin, english, level])
         else:
             warning_count += 1
             print("Warning: skipping " + simplified + " not found in dict", file=sys.stderr)
