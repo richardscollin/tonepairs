@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="manifest" href="manifest.webmanifest">
+    <link rel='shortcut icon' type='image/x-icon' href='favicon.ico' />
     <title>HSK Flash Cards</title>
 
     <style>
@@ -67,7 +68,7 @@ body {
         }).catch(error => console.error('Error:', error));
 
         if ('serviceWorker' in navigator) {
-          navigator.serviceWorker.register('sw.js')
+          navigator.serviceWorker.register('/tonepairs/sw.js')
             .then(function(registration) {
               console.log('Registration successful, scope is:', registration.scope);
             })

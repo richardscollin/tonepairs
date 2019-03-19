@@ -3,7 +3,7 @@
   template.innerHTML = `
   <div class="x-banner">
     <h2 class="left"></h2>
-    <a class="right" target="_blank" >About</a>
+    <a class="right" target="_blank" rel="noreferrer">About</a>
   </div>
   <style>
   .x-banner {
