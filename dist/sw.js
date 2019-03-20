@@ -2,12 +2,9 @@ const cacheName = "tone-0.0.2";
 self.addEventListener('install', event => {
   const preCache = async () => {
     const cache = await caches.open(cacheName);
-    console.log("opened cache");
+    console.log("cache opened");
     await cache.addAll([
         "index.html",
-        "components/x-banner.js",
-        "components/flash-card.js",
-        "components/utils.js",
         "hsk-v2.json"
     ]);
     console.log("added all");

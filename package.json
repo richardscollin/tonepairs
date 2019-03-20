@@ -1,0 +1,25 @@
+{
+  "name": "tonepairs",
+  "version": "1.0.0",
+  "description": "This is a simple flash card app I am making in my spare time to help me learn Chinese.",
+  "private": true,
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^5.15.3",
+    "eslint-loader": "^2.1.2",
+    "eslint-plugin-vue": "^5.2.2"
+  },
+  "scripts": {
+    "lint": "eslint --ext .js,.vue src/components/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/richardscollin/tonepairs.git"
+  },
+  "author": "Collin Richards",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/richardscollin/tonepairs/issues"
+  },
+  "homepage": "https://github.com/richardscollin/tonepairs#readme"
+}

@@ -1,43 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="manifest" href="manifest.webmanifest">
-    <link rel='shortcut icon' type='image/x-icon' href='favicon.ico' />
-    <title>HSK Flash Cards</title>
-
-    <style>
-*, *:before, *:after {
-  box-sizing: border-box;
-}
-html, body {
-  height: 100%;
-}
-body {
-  margin: 0;
-  font-family: Helvetica, Ubuntu, Arial, sans-serif;
-}
-.container {
-  height: 100%;
-  display: flex;
-  padding: 0;
-  margin: 0;
-
-  flex-direction: row; 
-  justify-content: center;
-  align-content: center;
-  align-items: center;
-}
-
-    </style>
-
-    <script src="components/utils.js"></script>
-    <script src="components/x-banner.js"></script>
-    <script src="components/flash-card.js"></script>
-
-  </head>
-  <body>
     <x-banner title="HSK Flash Cards" href="https://github.com/richardscollin/tonepairs"></x-banner>
     <div class="container">
       <flash-card index="0" type="traditional"></flash-card>
@@ -55,7 +15,7 @@ body {
           }
         });
       }
-      window.onload = () => {
+      window.addEventListener('load', () => {
         deck = [];
         fetch('hsk-v2.json')
         .then((resp) => resp.json())
@@ -68,7 +28,9 @@ body {
         }).catch(error => console.error('Error:', error));
 
         if ('serviceWorker' in navigator) {
-          navigator.serviceWorker.register('/tonepairs/sw.js')
+          const path = window.location.pathname;
+          const dirname = path.substring(0, path.lastIndexOf('/'));
+          navigator.serviceWorker.register(dirname + '/sw.js')
             .then(function(registration) {
               console.log('Registration successful, scope is:', registration.scope);
             })
@@ -76,7 +38,7 @@ body {
               console.log('Service worker registration failed, error:', error);
             });
         }
-      };
+      });
     </script>
   </body>
 </html>
