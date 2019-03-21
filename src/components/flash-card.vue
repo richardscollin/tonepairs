@@ -2,9 +2,9 @@
   <div class="flash-card-wrapper">
     <div class="flash-card">
       <a
-        href="#"
-        class="flash-card-title"
-      ></a>
+         href="#"
+         class="flash-card-title"
+         ></a>
       <span class="flash-card-text"></span>
       <span class="flash-card-english"></span>
       <div class="flash-card-label"></div>
@@ -28,9 +28,19 @@
 </template>
 
 <style>
+flash-card {
+  width: 100%;
+}
+.flash-card-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 .flash-card {
-  position:relative;
-  width: 300px;
+  position: relative;
+  width: 85%;
+  max-width: 300px;
   height: 175px;
 
   background-color: rgba(0,0,0,.05);
@@ -48,7 +58,7 @@
 }
 .flash-card-title {
   margin-top: 10px;
-  font-size: 75px;
+  font-size: 5em;
 
   text-decoration: none;
   color: black;
@@ -58,7 +68,7 @@
   font-size: 25px;
 }
 .flash-card-english {
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   font-size: 15px;
 }
 .flash-card-label:hover {

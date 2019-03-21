@@ -1,4 +1,4 @@
-const cacheName = "tone-0.0.4";
+const cacheName = "tone-0.0.5";
 const cacheFiles = [
   "./",
   "index.html",
