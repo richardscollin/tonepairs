@@ -1,15 +1,17 @@
-const cacheName = "tone-0.0.2";
+const cacheName = "tone-0.0.4";
+const cacheFiles = [
+  "./",
+  "index.html",
+  "hsk-v2.json",
+  "favicon.ico"
+];
+
 self.addEventListener('install', event => {
-  const preCache = async () => {
-    const cache = await caches.open(cacheName);
-    console.log("cache opened");
-    await cache.addAll([
-        "index.html",
-        "hsk-v2.json"
-    ]);
-    console.log("added all");
-  };
-  event.waitUntil(preCache());
+  event.waitUntil(
+    caches.open(cacheName)
+    .then(cache => cache.addAll(cacheFiles))
+    .then(self.skipWaiting())
+  );
 });
 
 self.addEventListener('activate', event => {
@@ -17,12 +19,21 @@ self.addEventListener('activate', event => {
 });
 
 self.addEventListener('fetch', event => {
-  console.log(event.request.url);
   event.respondWith(
-    caches.open(cacheName)
-      .then(cache => cache.match(event.request, {ignoreSearch: true}))
-      .then(response => {
-      return response || fetch(event.request);
+    caches.match(event.request).then(cachedResponse => {
+      if (cachedResponse) {
+        console.log(`using cache: ${cacheName} - ${event.request.url}`)
+        return cachedResponse;
+      }
+
+      console.log(`fetching: ${event.request.url}`)
+      return caches.open(cacheName).then(cache => {
+        return fetch(event.request).then(response => {
+          return cache.put(event.request, response.clone()).then(() => {
+            return response;
+          });
+        });
+      });
     })
   );
 });
